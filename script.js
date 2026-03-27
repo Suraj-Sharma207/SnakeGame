@@ -6,10 +6,13 @@ const blockWeigth = 30;
 const blocks = [];
 const snake = [{x:1,y:3}];
 
+
 let direction = "right";
 
 const cols = Math.floor(board.clientWidth/blockWeigth);
 const rows = Math.floor(board.clientHeight/blockHeight);
+let intervalID = null;
+let food = {x : Math.floor(Math.random()*rows) , y : Math.floor(Math.random()*cols)};
 
 
 for(let row = 0; row<rows; row++){
@@ -24,15 +27,10 @@ for(let row = 0; row<rows; row++){
 }
 
 function render() {
-    snake.forEach(segment => (
-        blocks[`${segment.x}-${segment.y}`].classList.add("snakeBody")
-    ))
-    
-}
 
-// setInterval calls autometacally render in every 3 sec. 
-setInterval(()=>{
-    let head = null;
+    let head = null
+
+    blocks[`${food.x}-${food.y}`].classList.add("food")
 
     if(direction == "left"){
         head = {x: snake[0].x , y:snake[0].y-1}
@@ -48,8 +46,28 @@ setInterval(()=>{
     }
     
     if(head.x < 0 || head.x >= rows || head.y < 0 || head.y >= cols){
-        alert("Ganme Over")
+        alert("Game Over")
+        clearInterval(intervalID)
     }
+    //self collision detection
+    for (let segment of snake) {
+        if (segment.x === head.x && segment.y === head.y) {
+            alert("Game Over");
+            clearInterval(intervalID);
+            return;
+        }
+    }
+
+    //remove the food to another place when head of snake meets the food
+    if(head.x == food.x && head.y == food.y){
+        blocks[`${food.x}-${food.y}`].classList.remove("food")
+        food = {x : Math.floor(Math.random()*rows) , y : Math.floor(Math.random()*cols)};
+        blocks[`${food.x}-${food.y}`].classList.add("food")
+        snake.unshift(head); 
+    }
+
+    
+    
 
     snake.forEach(segment=>{
         blocks[`${segment.x}-${segment.y}`].classList.remove("snakeBody")
@@ -57,6 +75,15 @@ setInterval(()=>{
 
     snake.unshift(head);
     snake.pop();
+
+    snake.forEach(segment => (
+        blocks[`${segment.x}-${segment.y}`].classList.add("snakeBody")
+    ))
+    
+}
+
+// setInterval calls autometacally render in every 3 sec. 
+intervalID = setInterval(()=>{
     render();
 },300);
 
@@ -66,17 +93,9 @@ setInterval(()=>{
 // ArrowRight
 
 addEventListener("keydown" , (event)=>{
-    if(event.key == "ArrowUp"){
-        direction = "up"
-    }
-    else if(event.key == "ArrowDown"){
-        direction = "down"
-    }
-    else if(event.key == "ArrowRight"){
-        direction = "right"
-    }
-    else if(event.key == "ArrowLeft"){
-        direction = "left"
-    }
+    if(event.key === "ArrowUp" && direction !== "down") direction = "up";
+    if(event.key === "ArrowDown" && direction !== "up") direction = "down";
+    if(event.key === "ArrowRight" && direction !== "left") direction = "right";
+    if(event.key === "ArrowLeft" && direction !== "right") direction = "left";
     
 })

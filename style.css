@@ -9,6 +9,7 @@
     --primary-bg-color : #222;
     --primary-grid-color : #193521;
     --snake-body-color : #a1a33b;
+    --food-body-color : #991c1c;
 
     /* Text Colur */
     --primary-text-color : rgba(0, 128, 0, 0.87);
@@ -82,5 +83,9 @@ section{
 
 .snakeBody{
     background-color: var(--snake-body-color);
+}
+
+.food{
+    background-color: var(--food-body-color);
 }
 
