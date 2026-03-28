@@ -48,6 +48,26 @@ html{
     color:var(--primary-text-color);
     background-color: var(--primary-bg-color);
 }
+
+/* buttons */
+.btn{
+    background-color: #193521;
+    color: #a1a33b;
+    padding: var(--border-sm) var(--border-md);
+    border-color:  var(--snake-body-color);
+    cursor: pointer;
+     
+}
+.btn:hover{
+    background-color: #a1a33b;
+    color: #991c1c;
+    border-color: #991c1c;
+     
+}
+
+
+/*--------------------------------------------------------- */
+
 main,section{
     height: 100%;
     width: 100%;
@@ -79,6 +99,7 @@ section{
 }
 .block{
     border: 1px solid var(--primary-grid-color);
+    /* border-radius: 50%; */
 }
 
 .snakeBody{
@@ -89,3 +110,28 @@ section{
     background-color: var(--food-body-color);
 }
 
+.enterGame{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    background-color: #32874c12;
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.startGame{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.endGame{
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    display: none;
+}
